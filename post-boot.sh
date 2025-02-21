@@ -15,8 +15,9 @@ sudo chown $EXPERIMENT_USER:octfpga-PG0 /mydata/tmp
 # Define CUDA download URL and filename
 CUDA_URL="https://developer.download.nvidia.com/compute/cuda/12.8.0/local_installers/cuda_12.8.0_570.86.10_linux.run"
 CUDA_INSTALLER="cuda_12.8.0_570.86.10_linux.run"
+CUDA_INSTALL_CMD="./$CUDA_INSTALLER --silent --toolkit --toolkitpath=./toolkit --tmpdir=./tmp"
 
-sudo -u $EXPERIMENT_USER bash -c "cd /mydata && wget $CUDA_URL"
+sudo -u $EXPERIMENT_USER bash -c "cd /mydata && wget $CUDA_URL && chmod +x ./$CUDA_INSTALLER && $CUDA_INSTALL_CMD"
 
 # Verify download success
 #if [ ! -f "/users/$EXPERIMENT_USER/$CUDA_INSTALLER" ]; then

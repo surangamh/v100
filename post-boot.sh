@@ -19,13 +19,13 @@ CUDA_INSTALLER="cuda_12.8.0_570.86.10_linux.run"
 sudo -u $EXPERIMENT_USER bash -c "cd ~ && wget $CUDA_URL"
 
 # Verify download success
-if [ ! -f "/users/$EXPERIMENT_USER/$CUDA_INSTALLER" ]; then
-    echo "Error: CUDA download failed!"
-    exit 1
-fi
+#if [ ! -f "/users/$EXPERIMENT_USER/$CUDA_INSTALLER" ]; then
+#    echo "Error: CUDA download failed!"
+#    exit 1
+#fi
 
 # Make the installer executable
-sudo -u $EXPERIMENT_USER chmod +x "/users/$EXPERIMENT_USER/$CUDA_INSTALLER"
+#sudo -u $EXPERIMENT_USER chmod +x "/users/$EXPERIMENT_USER/$CUDA_INSTALLER"
 
-sudo -u $EXPERIMENT_USER bash -c "cd ~ && ./$CUDA_INSTALLER --silent --toolkit --toolkitpath=/mydata/toolkit --tmpdir=/mydata/tmp"
+#sudo -u $EXPERIMENT_USER bash -c "cd ~ && ./$CUDA_INSTALLER --silent --toolkit --toolkitpath=/mydata/toolkit --tmpdir=/mydata/tmp"
 

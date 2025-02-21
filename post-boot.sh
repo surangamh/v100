@@ -32,3 +32,15 @@ sudo -u $EXPERIMENT_USER bash -c "cd /mydata && wget $CUDA_URL && chmod +x ./$CU
 
 sudo apt update
 sudo apt install nvidia-utils-535
+
+# Install CUDA samples
+sudo -u $EXPERIMENT_USER git clone https://github.com/NVIDIA/cuda-samples.git /mydata/cuda-samples
+sudo -u $EXPERIMENT_USER mkdir /mydata/cuda-samples/build && cd /mydata/cuda-samples/build
+
+sudo -u $EXPERIMENT_USER bash -c 'echo "export PATH=/mydata/toolkit/bin:\$PATH" >> ~/.bashrc'
+sudo -u $EXPERIMENT_USER bash -c 'echo "export LD_LIBRARY_PATH=/mydata/toolkit/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc'
+sudo -u $EXPERIMENT_USER bash -c 'echo "export CUDAToolkit_ROOT=/mydata/toolkit" >> ~/.bashrc'
+
+sudo -u $EXPERIMENT_USER bash -c 'source ~/.bashrc'
+
+

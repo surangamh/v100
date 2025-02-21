@@ -30,3 +30,5 @@ sudo -u $EXPERIMENT_USER bash -c "cd /mydata && wget $CUDA_URL && chmod +x ./$CU
 
 #sudo -u $EXPERIMENT_USER bash -c "cd ~ && ./$CUDA_INSTALLER --silent --toolkit --toolkitpath=/mydata/toolkit --tmpdir=/mydata/tmp"
 
+sudo apt update
+sudo apt install nvidia-utils-535

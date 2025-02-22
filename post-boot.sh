@@ -40,36 +40,36 @@ if [ ! -f "$BOOTFLAG" ]; then
     sudo apt install nvidia-utils-535 -y
 
     # Install CUDA samples
-    sudo -u $EXPERIMENT_USER git clone https://github.com/NVIDIA/cuda-samples.git /mydata/cuda-samples
-    sudo -u $EXPERIMENT_USER bash -c 'echo "export PATH=/mydata/toolkit/bin:\$PATH" >> ~/.bashrc'
-    sudo -u $EXPERIMENT_USER bash -c 'echo "export LD_LIBRARY_PATH=/mydata/toolkit/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc'
-    sudo -u $EXPERIMENT_USER bash -c 'echo "export CUDAToolkit_ROOT=/mydata/toolkit" >> ~/.bashrc'
+    #sudo -u $EXPERIMENT_USER git clone https://github.com/NVIDIA/cuda-samples.git /mydata/cuda-samples
+    #sudo -u $EXPERIMENT_USER bash -c 'echo "export PATH=/mydata/toolkit/bin:\$PATH" >> ~/.bashrc'
+    #sudo -u $EXPERIMENT_USER bash -c 'echo "export LD_LIBRARY_PATH=/mydata/toolkit/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc'
+    #sudo -u $EXPERIMENT_USER bash -c 'echo "export CUDAToolkit_ROOT=/mydata/toolkit" >> ~/.bashrc'
 
-    sudo -u $EXPERIMENT_USER bash -c 'source ~/.bashrc'
+    #sudo -u $EXPERIMENT_USER bash -c 'source ~/.bashrc'
 
     #Install GCC
 
-    sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-    sudo apt update
-    sudo apt install gcc-11 g++-11 -y
+    #sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+    #sudo apt update
+    #sudo apt install gcc-11 g++-11 -y
 
-    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100
-    sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100
+    #sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100
+    #sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100
 
     #Install dependencies
 
-    sudo apt-get install freeglut3-dev mesa-common-dev -y
-    sudo apt-get install libopenmpi-dev -y
-    sudo apt-get install libegl1-mesa-dev -y 
-    sudo apt-get install libfreeimage-dev -y
-    sudo apt-get install libvulkan-dev -y
-    sudo apt-get install libglfw3-dev -y
-    sudo apt-get install libpthread-stubs0-dev -y
-    sudo apt-get install libglfw3-dev
+    #sudo apt-get install freeglut3-dev mesa-common-dev -y
+    #sudo apt-get install libopenmpi-dev -y
+    #sudo apt-get install libegl1-mesa-dev -y 
+    #sudo apt-get install libfreeimage-dev -y
+    #sudo apt-get install libvulkan-dev -y
+    #sudo apt-get install libglfw3-dev -y
+    #sudo apt-get install libpthread-stubs0-dev -y
+    #sudo apt-get install libglfw3-dev
 
     #Build samples
 
-    sudo -u $EXPERIMENT_USER mkdir /mydata/cuda-samples/build && cd /mydata/cuda-samples/build && cmake .. && make -j$(nproc)
+    #sudo -u $EXPERIMENT_USER mkdir /mydata/cuda-samples/build && cd /mydata/cuda-samples/build && cmake .. && make -j$(nproc)
     touch "$BOOTFLAG"
     echo "Boot flag created at $BOOTFLAG"
 else

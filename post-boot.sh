@@ -18,55 +18,37 @@ if [ ! -f "$BOOTFLAG" ]; then
     sudo mkdir -p /mydata/tmp
     sudo chown $EXPERIMENT_USER:octfpga-PG0 /mydata/tmp
 
-    # Define CUDA download URL and filename
-    CUDA_URL="https://developer.download.nvidia.com/compute/cuda/12.8.0/local_installers/cuda_12.8.0_570.86.10_linux.run"
-    CUDA_INSTALLER="cuda_12.8.0_570.86.10_linux.run"
-    CUDA_INSTALL_CMD="./$CUDA_INSTALLER --silent --toolkit --toolkitpath=/mydata/toolkit --tmpdir=/mydata/tmp"
+    # Directories
+    DATA_DIR="/mydata"
+    TMP_DIR="$DATA_DIR/tmp"
+    TOOLKIT_DIR="$DATA_DIR/toolkit"
 
-    sudo -u $EXPERIMENT_USER bash -c "cd /mydata && wget $CUDA_URL && chmod +x ./$CUDA_INSTALLER && $CUDA_INSTALL_CMD"
+    # NVIDIA driver version and CUDA installer
+    NVIDIA_DRIVER="580"
+    CUDA_VERSION="12.8.0"
+    CUDA_RUN="cuda_12.8.0_570.86.10_linux.run"
+    CUDA_URL="https://developer.download.nvidia.com/compute/cuda/12.8.0/local_installers/$CUDA_RUN"
 
-    # Verify download success
-    #if [ ! -f "/users/$EXPERIMENT_USER/$CUDA_INSTALLER" ]; then
-    #    echo "Error: CUDA download failed!"
-    #    exit 1
-    #fi
+    # Step 1: Create directories with proper ownership
+    sudo mkdir -p "$DATA_DIR" "$TMP_DIR" "$TOOLKIT_DIR"
+    sudo chown -v $EXPERIMENT_USER:octfpga-PG0 "$DATA_DIR" "$TMP_DIR" "$TOOLKIT_DIR"
 
-    # Make the installer executable
-    #sudo -u $EXPERIMENT_USER chmod +x "/users/$EXPERIMENT_USER/$CUDA_INSTALLER"
-
-    #sudo -u $EXPERIMENT_USER bash -c "cd ~ && ./$CUDA_INSTALLER --silent --toolkit --toolkitpath=/mydata/toolkit --tmpdir=/mydata/tmp"
-
+    # Step 2: Install recommended NVIDIA driver via apt
+    echo "Installing NVIDIA driver $NVIDIA_DRIVER..."
     sudo apt update
-    sudo apt install nvidia-utils-535 -y
+    sudo apt install -y nvidia-driver-$NVIDIA_DRIVER
 
-    # Install CUDA samples
-    #sudo -u $EXPERIMENT_USER git clone https://github.com/NVIDIA/cuda-samples.git /mydata/cuda-samples
-    #sudo -u $EXPERIMENT_USER bash -c 'echo "export PATH=/mydata/toolkit/bin:\$PATH" >> ~/.bashrc'
-    #sudo -u $EXPERIMENT_USER bash -c 'echo "export LD_LIBRARY_PATH=/mydata/toolkit/lib64:\$LD_LIBRARY_PATH" >> ~/.bashrc'
-    #sudo -u $EXPERIMENT_USER bash -c 'echo "export CUDAToolkit_ROOT=/mydata/toolkit" >> ~/.bashrc'
+    # Step 3: Download CUDA installer if not already downloaded
+    if [ ! -f "$DATA_DIR/$CUDA_RUN" ]; then
+        sudo -u $EXPERIMENT_USER wget -P "$DATA_DIR" "$CUDA_URL"
+        sudo chmod +x "$DATA_DIR/$CUDA_RUN"
+    fi
 
-    #sudo -u $EXPERIMENT_USER bash -c 'source ~/.bashrc'
+    # Step 4: Install CUDA toolkit (without overwriting driver)
+    echo "Installing CUDA $CUDA_VERSION toolkit..."
+    sudo -u $EXPERIMENT_USER bash -c "$DATA_DIR/$CUDA_RUN --silent --toolkit --toolkitpath=$TOOLKIT_DIR --tmpdir=$TMP_DIR"
 
-    #Install GCC
-
-    #sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-    #sudo apt update
-    #sudo apt install gcc-11 g++-11 -y
-
-    #sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100
-    #sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100
-
-    #Install dependencies
-
-    #sudo apt-get install freeglut3-dev mesa-common-dev -y
-    #sudo apt-get install libopenmpi-dev -y
-    #sudo apt-get install libegl1-mesa-dev -y 
-    #sudo apt-get install libfreeimage-dev -y
-    #sudo apt-get install libvulkan-dev -y
-    #sudo apt-get install libglfw3-dev -y
-    #sudo apt-get install libpthread-stubs0-dev -y
-    #sudo apt-get install libglfw3-dev
-
+     
     #Build samples
 
     #sudo -u $EXPERIMENT_USER mkdir /mydata/cuda-samples/build && cd /mydata/cuda-samples/build && cmake .. && make -j$(nproc)
